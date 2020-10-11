@@ -121,9 +121,9 @@ exports.read = (req, res) => {
 
 
 exports.getProducts = (req, res) => {
-  let order = req.query.order ? req.query.order : 'asc';
-  let sortBy = req.query.sortBy ? req.query.sortBy : '_id';
-  let limit = req.query.limit ? parseInt(req.query.limit) : 5;
+  let order =  req.query.order ? req.query.order : 'asc';
+  let sortBy =  req.query.sortBy ? req.query.sortBy : '_id';
+  let limit =  req.query.limit ? parseInt(req.query.limit) : 5;
 
   Product.find()
     .select('-photo')
@@ -201,10 +201,10 @@ exports.update = (req, res) => {
  * by arrival = /products?sortBy=createdAt&order=desc&limit=4
  */
 
-exports.list = (req, res) => {
-  let order = req.query.order ? req.query.order : 'desc';
-  let sortBy = req.query.sortBy ? req.query.sortBy : '_id';
-  let limit = req.query.limit ? parseInt(req.query.limit) : 10;
+exports.list = async (req, res) => {
+  let order = await req.query.order ? req.query.order : 'desc';
+  let sortBy = await req.query.sortBy ? req.query.sortBy : '_id';
+  let limit = await req.query.limit ? parseInt(req.query.limit) : 10;
 
   Product.find()
     .select('-photo')
@@ -223,10 +223,10 @@ exports.list = (req, res) => {
     });
 };
 
-exports.listBySell = (req, res) => {
-  let order = req.query.order ? req.query.order : 'desc';
-  let sortBy = req.query.sortBy ? req.query.sortBy : '_id';
-  let limit = req.query.limit ? parseInt(req.query.limit) : 6;
+exports.listBySell = async (req, res) => {
+  let order = await req.query.order ? req.query.order : 'desc';
+  let sortBy = await req.query.sortBy ? req.query.sortBy : '_id';
+  let limit = await req.query.limit ? parseInt(req.query.limit) : 6;
 
   Product.find()
     .select('-photo')
