@@ -121,9 +121,9 @@ exports.read = (req, res) => {
 
 
 exports.getProducts = (req, res) => {
-  let order =  req.query.order ? req.query.order : 'asc';
-  let sortBy =  req.query.sortBy ? req.query.sortBy : '_id';
-  let limit =  req.query.limit ? parseInt(req.query.limit) : 5;
+  let order = req.query.order ? req.query.order : 'asc';
+  let sortBy = req.query.sortBy ? req.query.sortBy : '_id';
+  let limit = req.query.limit ? parseInt(req.query.limit) : 5;
 
   Product.find()
     .select('-photo')
@@ -261,7 +261,7 @@ exports.listRelated = (req, res) => {
       category: req.product.category
     })
     .limit(limit)
-    .populate('category', '_id name')
+    .populate('category', '_id title')
     .exec((err, products) => {
       if (err) {
         return res.status(400).json({

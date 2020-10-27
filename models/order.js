@@ -32,6 +32,11 @@ const OrderSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  color: {
+
+    type: String,
+    required: true
+  },
   district: {
 
     type: String,
