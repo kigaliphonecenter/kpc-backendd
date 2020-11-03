@@ -104,10 +104,10 @@ exports.productPage = (req, res) => {
 
   //we need to find the product information that belong to product Id 
   Product.find({
-      '_id': {
-        $in: productIds
-      }
-    })
+    '_id': {
+      $in: productIds
+    }
+  })
     .populate('writer')
     .exec((err, product) => {
       if (err) return res.status(400).send(err)
@@ -123,7 +123,7 @@ exports.read = (req, res) => {
 exports.getProducts = (req, res) => {
   let order = req.query.order ? req.query.order : 'asc';
   let sortBy = req.query.sortBy ? req.query.sortBy : '_id';
-  let limit = req.query.limit ? parseInt(req.query.limit) : 5;
+  let limit = req.query.limit ? parseInt(req.query.limit) : 6;
 
   Product.find()
     .select('-photo')
@@ -204,7 +204,7 @@ exports.update = (req, res) => {
 exports.list = async (req, res) => {
   let order = await req.query.order ? req.query.order : 'desc';
   let sortBy = await req.query.sortBy ? req.query.sortBy : '_id';
-  let limit = await req.query.limit ? parseInt(req.query.limit) : 10;
+  let limit = await req.query.limit ? parseInt(req.query.limit) : 15;
 
   Product.find()
     .select('-photo')
@@ -226,7 +226,7 @@ exports.list = async (req, res) => {
 exports.listBySell = async (req, res) => {
   let order = await req.query.order ? req.query.order : 'desc';
   let sortBy = await req.query.sortBy ? req.query.sortBy : '_id';
-  let limit = await req.query.limit ? parseInt(req.query.limit) : 6;
+  let limit = await req.query.limit ? parseInt(req.query.limit) : 8;
 
   Product.find()
     .select('-photo')
@@ -252,16 +252,16 @@ exports.listBySell = async (req, res) => {
  */
 
 exports.listRelated = (req, res) => {
-  let limit = req.query.limit ? parseInt(req.query.limit) : 6;
+  let limit = req.query.limit ? parseInt(req.query.limit) : 8;
 
   Product.find({
-      _id: {
-        $ne: req.product
-      },
-      category: req.product.category
-    })
+    _id: {
+      $ne: req.product
+    },
+    category: req.product.category
+  })
     .limit(limit)
-    .populate('category', '_id title')
+    .populate('category', '_id name')
     .exec((err, products) => {
       if (err) {
         return res.status(400).json({
