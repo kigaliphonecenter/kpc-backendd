@@ -56,7 +56,7 @@ exports.signin = (req, res) => {
   }, (err, user) => {
     if (err || !user) {
       return res.status(400).json({
-        error: 'User with that email does not exist. Please signup'
+        error: 'User not Found.'
       });
     }
     // if user is found make sure the email and password match
