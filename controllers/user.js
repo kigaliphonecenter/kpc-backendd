@@ -51,7 +51,7 @@ exports.update = (req, res) => {
     }, (err, user) => {
         if (err || !user) {
             return res.status(400).json({
-                error: 'Enter valid Email And Password'
+                error: 'User not found'
             });
         }
         if (!name) {
