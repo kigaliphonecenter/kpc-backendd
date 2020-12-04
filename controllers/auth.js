@@ -1,11 +1,13 @@
 const User = require('../models/User');
 const jwt = require('jsonwebtoken'); // to generate signed token
 const expressJwt = require('express-jwt'); // for authorization check
+const _ = require('lodash');
 const {
   errorHandler
 } = require('../helpers/dbErrorHandler');
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.MAIL_KEY);
+
 // using promise
 exports.signup = (req, res) => {
   // console.log("req.body", req.body);
@@ -25,26 +27,6 @@ exports.signup = (req, res) => {
   });
 };
 
-// using async/await
-// exports.signup = async (req, res) => {
-//     try {
-//         const user = await new User(req.body);
-//         console.log(req.body);
-
-//         await user.save((err, user) => {
-//             if (err) {
-//                 // return res.status(400).json({ err });
-//                 return res.status(400).json({
-//                     error: 'Email is taken'
-//                 });
-//             }
-//             res.status(200).json({ user });
-//         });
-//     } catch (err) {
-//         console.error(err.message);
-//     }
-// };
-
 exports.signin = (req, res) => {
   // find the user based on email
   const {
@@ -63,7 +45,7 @@ exports.signin = (req, res) => {
     // create authenticate method in user model
     if (!user.authenticate(password)) {
       return res.status(401).json({
-        error: 'LOGIN FAIL: Enter valid Email And Password '
+        error: ' Enter valid Email And Password '
       });
     }
     // generate a signed token with user id and secret
@@ -128,14 +110,7 @@ exports.forgotPassword = (req, res) => {
   const {
     email
   } = req.body;
-  // const errors = validationResult(req);
 
-  // if (!errors.isEmpty()) {
-  //   const firstError = errors.array().map(error => error.msg)[0];
-  //   return res.status(422).json({
-  //     errors: firstError
-  //   });
-  // } else {
   User.findOne({
       email
     },
@@ -205,14 +180,7 @@ exports.resetPassword = (req, res) => {
     newPassword
   } = req.body;
 
-  // const errors = validationResult(req);
 
-  // if (!errors.isEmpty()) {
-  //   const firstError = errors.array().map(error => error.msg)[0];
-  //   return res.status(422).json({
-  //     errors: firstError
-  //   });
-  // } else {
   if (resetPasswordLink) {
     jwt.verify(resetPasswordLink, process.env.JWT_RESET_PASSWORD, function (
       err,

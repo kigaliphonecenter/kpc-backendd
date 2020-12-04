@@ -11,7 +11,7 @@ const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
 const categoryRoutes = require('./routes/category');
 const productRoutes = require('./routes/product');
-const getTokenRoutes = require('./routes/getToken');
+// const getTokenRoutes = require('./routes/getToken');
 const orderRoutes = require('./routes/order');
 
 // app
@@ -47,12 +47,23 @@ app.use('/api', authRoutes);
 app.use('/api', userRoutes);
 app.use('/api', categoryRoutes);
 app.use('/api', productRoutes);
-app.use('/api', getTokenRoutes);
+// app.use('/api', getTokenRoutes);
 app.use('/api', orderRoutes);
 
 app.use('/api/uploads', express.static('uploads'));
 
 
+// Serve static assets if in production
+if (process.env.NODE_ENV === "development") {
+
+  // Set static folder
+  app.use(express.static("client/build"));
+
+  // index.html for all page routes
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../client", "build", "index.html"));
+  });
+}
 
 const port = process.env.PORT || 8000;
 

@@ -15,7 +15,8 @@ const {
 
 router.post("/signup", userSignupValidator, signup);
 router.post("/signin", signin);
-router.get("/signout", signout);
 router.put("/forgotPassword", forgotPassword);
 router.put("/resetPassword", resetPassword);
+router.get("/signout", signout);
+
 module.exports = router;
